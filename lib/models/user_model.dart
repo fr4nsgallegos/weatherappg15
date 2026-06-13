@@ -14,13 +14,13 @@ class UserModel {
   DateTime createdAt;
   String name;
   String avatar;
-  String id;
+  String? id;
 
   UserModel({
     required this.createdAt,
     required this.name,
     required this.avatar,
-    required this.id,
+    this.id,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(

@@ -16,10 +16,26 @@ class UserMockapiService {
     print("-------------------------");
 
     if (response.statusCode == 200) {
-      List<Map<String, dynamic>> data = jsonDecode(response.body);
+      List data = jsonDecode(response.body);
       return data.map((user) => UserModel.fromJson(user)).toList();
     } else {
       throw Exception("ERROR AL CARGAR LOS USUARIOS");
+    }
+  }
+
+  // POST
+  Future<UserModel> createUser(UserModel user) async {
+    final response = await http.post(
+      Uri.parse("$baseUrl/users"),
+      body: jsonEncode(user.toJson()),
+      headers: {"Content-Type": "application/json"},
+    );
+
+    if (response.statusCode == 201) {
+      print(response.body);
+      return UserModel.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception();
     }
   }
 }
