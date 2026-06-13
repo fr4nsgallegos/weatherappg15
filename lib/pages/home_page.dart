@@ -16,8 +16,12 @@ class HomePage extends StatelessWidget {
             name: "María Fernandez",
             avatar:
                 "https://images.pexels.com/photos/18092083/pexels-photo-18092083.jpeg",
+            id: "26",
           );
-          await UserMockapiService().createUser(userModelExample);
+          await UserMockapiService().updateUser(userModelExample);
+
+          // await UserMockapiService().createUser(userModelExample);
+
           List<UserModel> usuarios = await UserMockapiService().getUsers();
           usuarios.forEach((usuario) {
             print(usuario.name);
