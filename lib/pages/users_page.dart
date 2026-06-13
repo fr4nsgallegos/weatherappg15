@@ -29,7 +29,19 @@ class _UsersPageState extends State<UsersPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () async {
+          UserModel _nuevoUsuario = UserModel(
+            createdAt: DateTime.now(),
+            name: "Benito",
+            avatar:
+                "https://images.pexels.com/photos/17340271/pexels-photo-17340271.jpeg",
+          );
+
+          await userMockapiService.createUser(_nuevoUsuario);
+          await getUsers();
+
+          setState(() {});
+        },
         child: Icon(Icons.add),
       ),
       body: ListView.builder(
@@ -49,7 +61,21 @@ class _UsersPageState extends State<UsersPage> {
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
+                  IconButton(
+                    onPressed: () async {
+                      UserModel userUpdated = UserModel(
+                        createdAt: DateTime.now(),
+                        name: "Ximena Juarez",
+                        avatar:
+                            "https://images.pexels.com/photos/19338521/pexels-photo-19338521.jpeg",
+                        id: userList[index].id,
+                      );
+                      await userMockapiService.updateUser(userUpdated);
+                      await getUsers();
+                      setState(() {});
+                    },
+                    icon: Icon(Icons.edit),
+                  ),
 
                   IconButton(
                     onPressed: () async {
