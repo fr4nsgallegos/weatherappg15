@@ -55,4 +55,12 @@ class UserMockapiService {
       print("error: $e");
     }
   }
+
+  // DELETE
+  Future<void> deleteUser(String id) async {
+    final response = await http.delete(Uri.parse("$baseUrl/users/$id"));
+    if (response.statusCode != 200) {
+      throw Exception(response);
+    }
+  }
 }
