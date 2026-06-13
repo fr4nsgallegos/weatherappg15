@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:weatherappg15/models/user_model.dart';
+import 'package:weatherappg15/services/api_weather_service.dart';
 import 'package:weatherappg15/services/user_mockapi_service.dart';
 import 'package:weatherappg15/widgets/search_city_widget.dart';
 import 'package:weatherappg15/widgets/weather_item.dart';
@@ -11,7 +12,11 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // floatingActionButton: FloatingActionButton(onPressed: () async {}),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          ApiWeatherService().getWeatherInfo();
+        },
+      ),
       backgroundColor: Color(0xff2C2F31),
       appBar: AppBar(
         foregroundColor: Colors.white,
