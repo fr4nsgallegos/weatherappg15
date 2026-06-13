@@ -1,13 +1,33 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:weatherappg15/models/user_model.dart';
+import 'package:weatherappg15/models/weather_model.dart';
 import 'package:weatherappg15/services/api_weather_service.dart';
 import 'package:weatherappg15/services/user_mockapi_service.dart';
 import 'package:weatherappg15/widgets/search_city_widget.dart';
 import 'package:weatherappg15/widgets/weather_item.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   TextEditingController _cityController = TextEditingController();
+
+  WeatherModel? _weatherModel;
+
+  Future<void> getWeather() async {
+    _weatherModel = await ApiWeatherService().getWeatherInfoByName();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getWeather();
+  }
 
   @override
   Widget build(BuildContext context) {
