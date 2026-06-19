@@ -4,6 +4,8 @@ import 'package:weatherappg15/models/forecast_model.dart';
 import 'package:weatherappg15/models/user_model.dart';
 import 'package:weatherappg15/models/weather_model.dart';
 import 'package:weatherappg15/services/api_weather_service.dart';
+import 'package:weatherappg15/services/dio_client.dart';
+import 'package:weatherappg15/services/user_api_retrofit.dart';
 import 'package:weatherappg15/services/user_mockapi_service.dart';
 import 'package:weatherappg15/widgets/forecast_widget.dart';
 import 'package:weatherappg15/widgets/search_city_widget.dart';
@@ -103,7 +105,18 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          ApiWeatherService().getWeatherInfo();
+          // ApiWeatherService().getWeatherInfo();
+          final userApiRetrofit = UserApiRetrofit(DioClient.getDio());
+          // Obteniendo usuarios con dio y retrofit
+          await userApiRetrofit.getUsers().then((value) {
+            value.forEach((e) {
+              print(e.name);
+            });
+          });
+
+          await userApiRetrofit.getUserById("5").then((value) {
+            print(value.name);
+          });
         },
       ),
       backgroundColor: Color(0xff2C2F31),
