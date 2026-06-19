@@ -107,6 +107,32 @@ class _HomePageState extends State<HomePage> {
         onPressed: () async {
           // ApiWeatherService().getWeatherInfo();
           final userApiRetrofit = UserApiRetrofit(DioClient.getDio());
+
+          // creando usuario
+          await userApiRetrofit.createAuser(
+            UserModel(
+              createdAt: DateTime.now(),
+              name: "Jhonny Gallegos",
+              avatar:
+                  "https://www.pexels.com/es-es/foto/amigos-alegres-riendo-en-java-oriental-indonesia-31758526/",
+            ),
+          );
+
+          // Actualizando usuario
+          await userApiRetrofit.updateUser(
+            "33",
+            UserModel(
+              createdAt: DateTime.now(),
+              name: "aCTUALIZADOOOOOOOOOOO",
+              avatar:
+                  "https://www.pexels.com/es-es/foto/amigos-alegres-riendo-en-java-oriental-indonesia-31758526/",
+            ),
+          );
+
+          // Eliminando usuario
+
+          await userApiRetrofit.deleteUser("6");
+
           // Obteniendo usuarios con dio y retrofit
           await userApiRetrofit.getUsers().then((value) {
             value.forEach((e) {

@@ -15,4 +15,16 @@ abstract class UserApiRetrofit {
   // get por id
   @GET("users/{id}")
   Future<UserModel> getUserById(@Path("id") String id);
+
+  // POST
+  @POST("/users")
+  Future<UserModel> createAuser(@Body() UserModel user);
+
+  // PUT
+  @PUT("/users/{id}")
+  Future<UserModel> updateUser(@Path("id") String id, @Body() UserModel user);
+
+  // DELETE
+  @DELETE("users/{id}")
+  Future<void> deleteUser(@Path("id") String id);
 }
