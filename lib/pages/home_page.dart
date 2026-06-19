@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   TextEditingController _cityController = TextEditingController();
   WeatherModel? _weatherModel;
 
-  Future<void> getPosition() async {
+  Future<Position?> getPosition() async {
     bool serviceEnabled;
     LocationPermission locationPermission;
 
@@ -44,8 +44,25 @@ class _HomePageState extends State<HomePage> {
       return null;
     }
 
-    Position position = await Geolocator.getCurrentPosition();
-    print(position);
+    try {
+      Position position = await Geolocator.getCurrentPosition();
+      print(position);
+      return position;
+    } catch (e) {
+      print("ERROR AL OBTNER LA UBICACIÓN: $e");
+      return null;
+    }
+  }
+
+  Future<void> getWeatherByPosition() async {
+    Position? _pos = await getPosition();
+    if (_pos == null) {
+      print("No se pudo obtener la ubicación");
+      return null;
+    }
+
+    _weatherModel = await ApiWeatherService().getWeatherInfoByPos(_pos);
+    setState(() {});
   }
 
   Future<void> getWeather() async {
@@ -77,7 +94,7 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
             onPressed: () async {
-              await getPosition();
+              await getWeatherByPosition();
             },
             icon: Icon(Icons.location_on_outlined),
           ),
