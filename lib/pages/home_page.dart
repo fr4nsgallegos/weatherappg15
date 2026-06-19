@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:weatherappg15/models/forecast_model.dart';
 import 'package:weatherappg15/models/user_model.dart';
 import 'package:weatherappg15/models/weather_model.dart';
 import 'package:weatherappg15/services/api_weather_service.dart';
 import 'package:weatherappg15/services/user_mockapi_service.dart';
+import 'package:weatherappg15/widgets/forecast_widget.dart';
 import 'package:weatherappg15/widgets/search_city_widget.dart';
 import 'package:weatherappg15/widgets/weather_item.dart';
 import 'package:geolocator/geolocator.dart';
@@ -15,7 +17,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   TextEditingController _cityController = TextEditingController();
-  WeatherModel? _weatherModel;
+  // WeatherModel? _weatherModel;
+  ForecastModel? _forecastModel;
 
   Future<Position?> getPosition() async {
     bool serviceEnabled;
@@ -54,27 +57,45 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Future<void> getWeatherByPosition() async {
+  // Future<void> getWeatherByPosition() async {
+  //   Position? _pos = await getPosition();
+  //   if (_pos == null) {
+  //     print("No se pudo obtener la ubicación");
+  //     return null;
+  //   }
+
+  //   _weatherModel = await ApiWeatherService().getWeatherInfoByPos(_pos);
+  //   setState(() {});
+  // }
+
+  Future<void> getForecastByPosition() async {
     Position? _pos = await getPosition();
     if (_pos == null) {
       print("No se pudo obtener la ubicación");
       return null;
     }
 
-    _weatherModel = await ApiWeatherService().getWeatherInfoByPos(_pos);
+    _forecastModel = await ApiWeatherService().getForecastInfoByPos(_pos);
     setState(() {});
   }
 
-  Future<void> getWeather() async {
-    _weatherModel = await ApiWeatherService().getWeatherInfoByName();
-    setState(() {});
-  }
+  // Future<void> getWeather() async {
+  //   _weatherModel = await ApiWeatherService().getWeatherInfoByName();
+  //   setState(() {});
+  // }
+  //
+  // Future<void> getForecast() async {
+  //   _forecastModel = await ApiWeatherService().getForecastInfoByPos();
+  //   setState(() {});
+  // }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getWeather();
+    // getWeather();
+    // getForecast();
+    getForecastByPosition();
   }
 
   @override
@@ -151,6 +172,14 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ],
                       ),
+                    ],
+                  ),
+                ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      ForecastWidget(hour: "00:00", isDay: 0, temp: "2"),
                     ],
                   ),
                 ),
