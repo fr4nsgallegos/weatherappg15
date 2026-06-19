@@ -37,10 +37,10 @@ class Current {
   double windKph;
   int windDegree;
   String windDir;
-  int pressureMb;
+  double pressureMb;
   double pressureIn;
-  int precipMm;
-  int precipIn;
+  double precipMm;
+  double precipIn;
   int humidity;
   int cloud;
   double feelslikeC;
@@ -50,10 +50,10 @@ class Current {
   double heatindexC;
   double heatindexF;
   double dewpointC;
-  int dewpointF;
-  int visKm;
-  int visMiles;
-  int uv;
+  double dewpointF;
+  double visKm;
+  double visMiles;
+  double uv;
   double gustMph;
   double gustKph;
   int willItRain;
