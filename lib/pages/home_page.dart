@@ -115,13 +115,13 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
             onPressed: () async {
-              await getWeatherByPosition();
+              await getForecastByPosition();
             },
             icon: Icon(Icons.location_on_outlined),
           ),
         ],
       ),
-      body: _weatherModel == null
+      body: _forecastModel == null
           ? Center(child: CircularProgressIndicator())
           : ListView(
               children: [
@@ -142,13 +142,13 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     children: [
                       Text(
-                        "${_weatherModel!.location.name}, ${_weatherModel!.location.country}",
+                        "${_forecastModel!.location.name}, ${_forecastModel!.location.country}",
                         style: TextStyle(color: Colors.white, fontSize: 18),
                       ),
                       SizedBox(height: 32),
                       Image.asset("assets/icons/heavycloudy.png", height: 100),
                       Text(
-                        "${_weatherModel!.current.tempC} °",
+                        "${_forecastModel!.current.tempC} °",
                         style: TextStyle(color: Colors.white, fontSize: 100),
                       ),
                       Divider(height: 40),
@@ -156,17 +156,17 @@ class _HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           WeatherItem(
-                            value: _weatherModel!.current.visKm,
+                            value: _forecastModel!.current.visKm,
                             unit: "km/h",
                             image: "windspeed",
                           ),
                           WeatherItem(
-                            value: _weatherModel!.current.humidity.toDouble(),
+                            value: _forecastModel!.current.humidity.toDouble(),
                             unit: "%",
                             image: "humidity",
                           ),
                           WeatherItem(
-                            value: _weatherModel!.current.cloud.toDouble(),
+                            value: _forecastModel!.current.cloud.toDouble(),
                             unit: "%",
                             image: "cloud",
                           ),
@@ -178,9 +178,29 @@ class _HomePageState extends State<HomePage> {
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
-                    children: [
-                      ForecastWidget(hour: "00:00", isDay: 0, temp: "2"),
-                    ],
+                    children: List.generate(
+                      _forecastModel!.forecast.forecastday[0].hour.length,
+                      (index) => ForecastWidget(
+                        hour: _forecastModel!
+                            .forecast
+                            .forecastday[0]
+                            .hour[index]
+                            .time
+                            .toString()
+                            .substring(11, 16),
+                        temp: _forecastModel!
+                            .forecast
+                            .forecastday[0]
+                            .hour[index]
+                            .tempC
+                            .toString(),
+                        isDay: _forecastModel!
+                            .forecast
+                            .forecastday[0]
+                            .hour[index]
+                            .isDay,
+                      ),
+                    ),
                   ),
                 ),
               ],

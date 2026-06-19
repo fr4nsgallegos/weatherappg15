@@ -16,8 +16,7 @@ class ForecastWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // width: 20,
-      // height: 20,
+      margin: EdgeInsets.only(right: 12, bottom: 32),
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
       decoration: BoxDecoration(
         color: Color(0xff404446),

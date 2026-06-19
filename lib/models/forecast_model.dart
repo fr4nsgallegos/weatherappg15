@@ -43,11 +43,11 @@ class Current {
   double windMph;
   double windKph;
   int windDegree;
-  WindDir windDir;
-  int pressureMb;
+  WindDir? windDir;
+  double pressureMb;
   double pressureIn;
-  int precipMm;
-  int precipIn;
+  double precipMm;
+  double precipIn;
   int humidity;
   int cloud;
   double feelslikeC;
@@ -58,8 +58,8 @@ class Current {
   double heatindexF;
   double dewpointC;
   double dewpointF;
-  int visKm;
-  int visMiles;
+  double visKm;
+  double visMiles;
   double uv;
   double gustMph;
   double gustKph;
@@ -69,7 +69,7 @@ class Current {
   int chanceOfSnow;
   int? timeEpoch;
   String? time;
-  int? snowCm;
+  double? snowCm;
 
   Current({
     this.lastUpdatedEpoch,
@@ -81,7 +81,7 @@ class Current {
     required this.windMph,
     required this.windKph,
     required this.windDegree,
-    required this.windDir,
+    this.windDir,
     required this.pressureMb,
     required this.pressureIn,
     required this.precipMm,
@@ -120,7 +120,7 @@ class Current {
     windMph: json["wind_mph"]?.toDouble(),
     windKph: json["wind_kph"]?.toDouble(),
     windDegree: json["wind_degree"],
-    windDir: windDirValues.map[json["wind_dir"]]!,
+    windDir: windDirValues.map[json["wind_dir"]],
     pressureMb: json["pressure_mb"],
     pressureIn: json["pressure_in"]?.toDouble(),
     precipMm: json["precip_mm"],
@@ -190,47 +190,17 @@ class Current {
 }
 
 class Condition {
-  Text text;
-  Icon icon;
+  String text;
+  String icon;
   int code;
 
   Condition({required this.text, required this.icon, required this.code});
 
-  factory Condition.fromJson(Map<String, dynamic> json) => Condition(
-    text: textValues.map[json["text"]]!,
-    icon: iconValues.map[json["icon"]]!,
-    code: json["code"],
-  );
+  factory Condition.fromJson(Map<String, dynamic> json) =>
+      Condition(text: json["text"], icon: json["icon"], code: json["code"]);
 
-  Map<String, dynamic> toJson() => {
-    "text": textValues.reverse[text],
-    "icon": iconValues.reverse[icon],
-    "code": code,
-  };
+  Map<String, dynamic> toJson() => {"text": text, "icon": icon, "code": code};
 }
-
-enum Icon {
-  CDN_WEATHERAPI_COM_WEATHER_64_X64_DAY_113_PNG,
-  CDN_WEATHERAPI_COM_WEATHER_64_X64_DAY_116_PNG,
-  CDN_WEATHERAPI_COM_WEATHER_64_X64_NIGHT_113_PNG,
-}
-
-final iconValues = EnumValues({
-  "//cdn.weatherapi.com/weather/64x64/day/113.png":
-      Icon.CDN_WEATHERAPI_COM_WEATHER_64_X64_DAY_113_PNG,
-  "//cdn.weatherapi.com/weather/64x64/day/116.png":
-      Icon.CDN_WEATHERAPI_COM_WEATHER_64_X64_DAY_116_PNG,
-  "//cdn.weatherapi.com/weather/64x64/night/113.png":
-      Icon.CDN_WEATHERAPI_COM_WEATHER_64_X64_NIGHT_113_PNG,
-});
-
-enum Text { CLEAR, PARTLY_CLOUDY, SUNNY }
-
-final textValues = EnumValues({
-  "Clear": Text.CLEAR,
-  "Partly Cloudy": Text.PARTLY_CLOUDY,
-  "Sunny": Text.SUNNY,
-});
 
 enum WindDir { S, SSW, SW }
 
@@ -342,11 +312,11 @@ class Day {
   double avgtempF;
   double maxwindMph;
   double maxwindKph;
-  int totalprecipMm;
-  int totalprecipIn;
-  int totalsnowCm;
-  int avgvisKm;
-  int avgvisMiles;
+  double totalprecipMm;
+  double totalprecipIn;
+  double totalsnowCm;
+  double avgvisKm;
+  double avgvisMiles;
   int avghumidity;
   int dailyWillItRain;
   int dailyChanceOfRain;
