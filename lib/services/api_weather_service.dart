@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
@@ -74,7 +76,7 @@ class ApiWeatherService {
     );
 
     try {
-      final response = await http.get(url);
+      final response = await http.get(url).timeout(Duration(seconds: 10));
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         logger.f(data);
@@ -82,6 +84,20 @@ class ApiWeatherService {
         logger.w(forecastModel.location.name);
         return forecastModel;
       }
+
+      if (response.statusCode == 404) {
+        throw Exception("Recurso no encontrado");
+      }
+
+      if (response.statusCode >= 500) {
+        throw Exception("Error interno del servidor");
+      }
+
+      throw Exception("error inesperado: ${response.statusCode}");
+    } on TimeoutException {
+      throw Exception("La solicitud tardó demasiado");
+    } on SocketException {
+      throw Exception("No hay conexión a internet");
     } catch (e) {
       throw Exception("Error inesperado: $e");
     }
